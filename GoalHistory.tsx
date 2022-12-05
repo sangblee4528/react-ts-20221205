@@ -7,9 +7,25 @@ interface Goal {
 }
 
 export const GoalHistory: React.FC = () => {
-  const [goals, setCoals] = useState<Goal[]>([]);
+  const [goals, setGoals] = useState<Goal[]>([]);
 
   const onGoalScored: GoalListener = (teamThatScored: Team) => {
-    const goal = {};
+    const goal = {
+      team: teamThatScored,
+      time: Date.now().toString(),
+    };
+
+    setGoals((oldGoals) => oldGoals.concat(goal));
   };
+
+  useEffect(() => {
+    game.attach(onGoalScored);
+
+    // 컴포넌트가 더이상 쓰이지 않을 때 listen 하지 않도록 하자.
+    return () => {
+      game.detach(onGoalScored);
+    };
+  }, []);
+
+  return <span>{goals.map(({ team, time }) => `${team} '${time}`)}</span>;
 };
