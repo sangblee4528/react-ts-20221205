@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import * as React from 'react';
 import game, { Team, GoalListener } from './Game';
 
 interface Goal {
@@ -7,7 +7,7 @@ interface Goal {
 }
 
 export const GoalHistory: React.FC = () => {
-  const [goals, setGoals] = useState<Goal[]>([]);
+  const [goals, setGoals] = React.useState<Goal[]>([]);
 
   const onGoalScored: GoalListener = (teamThatScored: Team) => {
     const goal = {
@@ -18,7 +18,7 @@ export const GoalHistory: React.FC = () => {
     setGoals((oldGoals) => oldGoals.concat(goal));
   };
 
-  useEffect(() => {
+  React.useEffect(() => {
     game.attach(onGoalScored);
 
     // 컴포넌트가 더이상 쓰이지 않을 때 listen 하지 않도록 하자.

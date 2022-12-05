@@ -1,4 +1,4 @@
-import React, { useEffect, useReducer } from 'react';
+import * as React from 'react';
 import game, { Team, GoalListener } from './Game';
 
 interface Score {
@@ -21,12 +21,12 @@ const onGoalScored = (score: Score, team: Team) => {
 };
 
 export const ScoreBoard: React.FC = () => {
-  const [score, dispatch] = useReducer(onGoalScored, {
+  const [score, dispatch] = React.useReducer(onGoalScored, {
     home: 0,
     away: 0,
   });
 
-  useEffect(() => {
+  React.useEffect(() => {
     game.attach(dispatch as GoalListener);
 
     // 컴포넌트가 더이상 쓰이지 않을 때 listen 하지 않도록 하자.
